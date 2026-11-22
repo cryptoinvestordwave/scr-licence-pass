@@ -19,7 +19,15 @@ Anyone can verify a licence by calling `check(domainHash)`, which returns `(vali
 | Polygon PoS (mainnet) | [`0x93ef5A4b199bdBa8bf552aB30B17F5767c05B145`](https://polygonscan.com/address/0x93ef5A4b199bdBa8bf552aB30B17F5767c05B145#code) | Verified (Polygonscan, Sourcify exact match) |
 | Polygon Amoy (testnet) | [`0x93ef5A4b199bdBa8bf552aB30B17F5767c05B145`](https://amoy.polygonscan.com/address/0x93ef5A4b199bdBa8bf552aB30B17F5767c05B145#code) | Verified (Polygonscan, Sourcify exact match) |
 
-Same address on both networks (same deployer, first transaction). USDC prices on mainnet: Standard 2,850 USDC, Pro 7,100 USDC, Enterprise quoted (not sold for USDC). USDC is optional: card checkout is the default and **no crypto wallet is ever required**. Passes for card buyers are minted to, and held by, the operator wallet on the buyer's behalf.
+Same address on both networks (same deployer, first transaction).
+
+### Site Screening Report registry (`SCRReportRegistry`)
+| Network | Address |
+|---|---|
+| Polygon PoS (mainnet) | [`0x0D81729c72137EA75A19c475b4afcE83334289e2`](https://polygonscan.com/address/0x0D81729c72137EA75A19c475b4afcE83334289e2#code) |
+| Polygon Amoy (testnet) | [`0xa62AD09B8B1476E7e67718e7D21dAB97C1bdce33`](https://amoy.polygonscan.com/address/0xa62AD09B8B1476E7e67718e7D21dAB97C1bdce33#code) |
+
+Every Site Screening Report PDF issued by Strategic Crypto Reserve has its **SHA-256 fingerprint** recorded with `attest(sha256, modelVersion, location, profile)`. `verify(sha256)` returns the issue time, revocation flag, report number and metadata (`issued == 0` means not on record). Only non-identifying metadata is stored; client names and terms never go on-chain. Public verifier (licences and reports): https://strategiccryptoreserve.ca/verify-licence.html USDC prices on mainnet: Standard 2,850 USDC, Pro 7,100 USDC, Enterprise quoted (not sold for USDC). USDC is optional: card checkout is the default and **no crypto wallet is ever required**. Passes for card buyers are minted to, and held by, the operator wallet on the buyer's behalf.
 
 ## Widget integration
 The configurator widget (v1.8.1+) computes `keccak256(hostname)` for the embedding page (and its parent domains, `www.` ignored), calls `check()` through a public Polygon RPC, and:
@@ -44,7 +52,7 @@ forge test
 forge coverage --no-match-coverage 'test|script'
 slither . --filter-paths "lib/|test/"
 ```
-Current results: 28 tests passing (incl. fuzz), 100% line/statement/branch/function coverage, Slither 0.11.6: 0 high / 0 medium / 4 low (timestamp comparisons, expected for annual licence terms; see `audit/`).
+Current results: 36 tests passing (incl. fuzz) across both contracts, 100% line/statement/branch/function coverage on both, Slither 0.11.6: 0 high / 0 medium / 4 low (timestamp comparisons, expected for annual licence terms; see `audit/`).
 
 ## Deploy
 ```
